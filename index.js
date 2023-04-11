@@ -20,7 +20,7 @@ const run = async () => {
   try {
     const db = client.db('dreamJob');
     const userCollection = db.collection('user');
-
+    const jobCollection = db.collection('job');
     app.post('/user', async (req, res) => {
       const user = req.body;
 
@@ -28,7 +28,7 @@ const run = async () => {
 
       res.send(result);
     });
-    
+
     app.get('/user/:email', async (req, res) => {
       const email = req.params.email;
 
@@ -39,6 +39,14 @@ const run = async () => {
       }
 
       res.send({ status: false });
+    });
+
+    app.post('/job', async (req, res) => {
+      const job = req.body;
+
+      const result = await jobCollection.insertOne(job);
+
+      res.send({ status: true, data: result });
     });
   } finally {
   }
